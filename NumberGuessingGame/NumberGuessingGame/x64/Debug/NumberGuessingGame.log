@@ -1,2 +1,3 @@
 ﻿  NumberGuessingGame.cpp
-  NumberGuessingGame.vcxproj -> C:\Users\ErayT\source\repos\NumberGuessingGame\x64\Debug\NumberGuessingGame.exe
+C:\Users\ErayT\OneDrive\Masaüstü\Desktop\Programming\C++ Repository\Number-Guesing-Game\NumberGuessingGame\NumberGuessingGame\NumberGuessingGame.cpp(224,11): warning C4101: 'buffer': unreferenced local variable
+  NumberGuessingGame.vcxproj -> C:\Users\ErayT\OneDrive\Masaüstü\Desktop\Programming\C++ Repository\Number-Guesing-Game\NumberGuessingGame\x64\Debug\NumberGuessingGame.exe
