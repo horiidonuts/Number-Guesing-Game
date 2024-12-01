@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ErayT\\OneDrive\\Masa\u00FCst\u00FC\\Desktop\\Programming\\C\u002B\u002B Repository\\Number-Guesing-Game\\NumberGuessingGame\\",
+  "WorkspaceRootPath": "C:\\Users\\ErayT\\Number-Guesing-Game\\NumberGuessingGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{16630E04-A16E-4320-AEF6-D5ABAB749653}|NumberGuessingGame\\NumberGuessingGame.vcxproj|C:\\Users\\ErayT\\OneDrive\\Masa\u00FCst\u00FC\\Desktop\\Programming\\C\u002B\u002B Repository\\Number-Guesing-Game\\NumberGuessingGame\\NumberGuessingGame\\NumberGuessingGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{16630E04-A16E-4320-AEF6-D5ABAB749653}|NumberGuessingGame\\NumberGuessingGame.vcxproj|C:\\Users\\ErayT\\Number-Guesing-Game\\NumberGuessingGame\\NumberGuessingGame\\NumberGuessingGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{16630E04-A16E-4320-AEF6-D5ABAB749653}|NumberGuessingGame\\NumberGuessingGame.vcxproj|solutionrelative:NumberGuessingGame\\NumberGuessingGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -20,11 +20,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "NumberGuessingGame.cpp",
-              "DocumentMoniker": "C:\\Users\\ErayT\\OneDrive\\Masa\u00FCst\u00FC\\Desktop\\Programming\\C\u002B\u002B Repository\\Number-Guesing-Game\\NumberGuessingGame\\NumberGuessingGame\\NumberGuessingGame.cpp",
+              "DocumentMoniker": "C:\\Users\\ErayT\\Number-Guesing-Game\\NumberGuessingGame\\NumberGuessingGame\\NumberGuessingGame.cpp",
               "RelativeDocumentMoniker": "NumberGuessingGame\\NumberGuessingGame.cpp",
-              "ToolTip": "C:\\Users\\ErayT\\OneDrive\\Masa\u00FCst\u00FC\\Desktop\\Programming\\C\u002B\u002B Repository\\Number-Guesing-Game\\NumberGuessingGame\\NumberGuessingGame\\NumberGuessingGame.cpp",
+              "ToolTip": "C:\\Users\\ErayT\\Number-Guesing-Game\\NumberGuessingGame\\NumberGuessingGame\\NumberGuessingGame.cpp",
               "RelativeToolTip": "NumberGuessingGame\\NumberGuessingGame.cpp",
-              "ViewState": "AQIAALcAAAAAAAAAAAAgwIAAAAACAAAA",
+              "ViewState": "AgIAAJgAAAAAAAAAAAAUwAcBAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-26T19:57:28.942Z",
               "EditorCaption": ""

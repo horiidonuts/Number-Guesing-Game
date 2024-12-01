@@ -1,4 +1,5 @@
 // 1231602667 Eray Tuna A sube
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -13,17 +14,18 @@
 
 // input olarak i girildiginde puan karsiligi bilgi ipucu alabilme ozelligi
 
-int menuSelection;
-char difficultySelection;
-int selectedNumber = 0;
-int upperBound = 0;
-int currentPoints = 0;
-bool singleShot = false;
-int playerGuess;
-int totalPoints = 0;
-int currentSessionPoints = 0;
-int sessionPoints = 0;
+int menuSelection; // menude gezinmemizi saglayan degisken
+char difficultySelection; // zorlugu secmemizi saglayan degisken
+int selectedNumber = 0; // tahmin etmemiz gereken sayi
+int upperBound = 0; // zorluga gore belirlenecek ust sinir
+int currentPoints = 0; // raunt icin verilecek puan
+int playerGuess; // oyuncunun tahminini tutan degisken
+int totalPoints = 0; // baslangictan beri kazanilan toplam puan
+int sessionPoints = 0; // oyunun simdiki instance'inda kazanilan puan
+char resetSelection[6]; // puani sifirlamak icin onay yazisi
+char confirmation; // ekstra onay degiskeni (Y/N)
 
+// Daktilo efekti icin gerekli bilgi yazilarinin dizileri ------------------------------------------------------
 char welcome_message[welcome_length][100] = 
 { 
 	{"Welcome to the number guessing game!\n"}, 
@@ -63,9 +65,10 @@ char hasGuessed[3][100] =
 	{"I have chosen a number for you! Try to guess it!\n"}
 };
 
-char errorMessage[1][100] =
+char errorMessage[2][100] =
 {
-	{"\nInvalid selection. Please Select again.\n"}
+	{"\nInvalid selection. Please Select again.\n"},
+	{"\nYou failed to guess the number! No points rewarded.\n"}
 };
 
 char returnMessage[1][100] =
@@ -73,7 +76,18 @@ char returnMessage[1][100] =
 	{"Press any key to return to the main menu.\n"}
 };
 
-void TypeWriter(char text_array[][100], int array_length, bool typeOnce, int index)
+char resetMessage[4][100] =
+{
+	{"Type 'Reset' to reset your total saved score.\nType anything else to return to the main menu.\n"},
+	{"\nAre you sure that you want to clear your total score? (Y/N)\n"},
+	{"Score has been successfully cleared. Press any key to return to the main menu.\n"},
+	{"No changes have been made. Press any key to return to the main menu.\n\n"}
+};
+// Daktilo efekti icin gerekli bilgi yazilarinin dizileri -------------------------------------------------------
+
+// Daktilo efekti yaratan fonksiyon, parametre olarak iki boyutlu bir dizi(cumle sayisi ve harfler), cumle sayisi,
+// 1 kez yazilip yazilmayacagini belirten boolean ve 1 kez yazilacaksa yazilacak olan dizinin indeksini alir.
+void TypeWriter(char text_array[][100], int array_length, bool typeOnce, int index) 
 {
 	if (typeOnce)
 	{
@@ -97,12 +111,19 @@ void TypeWriter(char text_array[][100], int array_length, bool typeOnce, int ind
 	}
 }
 
+// input buffer temizleme fonksiyonu.
 void ClearBuffer()
 {
 	int ch;
 	while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
+void Clear(void)
+{
+	while (getchar() != '\n');
+}
+
+// Toplam skoru dosyaya yazan ve kaydeden fonksiyon.
 void WriteScore(int score)
 {
 	char buffer[20];
@@ -114,6 +135,7 @@ void WriteScore(int score)
 	fclose(scoredata);
 }
 
+// Ilk calistirmada kayitli skoru dosyadan okuan fonksiyon
 int ReadScore()
 {
 	char buffer[20];
@@ -136,7 +158,7 @@ int main()
 		printf("\nSelection > ");
 		scanf_s("%d", &menuSelection);
 
-		while (true)// difficulty menu loop
+		while (true) // difficulty menu loop
 		{
 			if (menuSelection == 1)
 			{
@@ -147,11 +169,9 @@ int main()
 				TypeWriter(selection_1, 1, true, 6);
 				printf("%d\n", sessionPoints);
 				printf("\nDifficulty > ");
-
-				ClearBuffer();
-
+				Clear();
 				scanf_s("%c", &difficultySelection, 1);
-
+				
 				if (difficultySelection == 'E' || difficultySelection == 'e')
 				{
 					upperBound = 25;
@@ -177,10 +197,10 @@ int main()
 					system("PAUSE");
 					continue;
 				}
-
+				
 				selectedNumber = rand() % (upperBound - 0 + 1);
 				system("cls");
-				printf("Current Number: %d\n", selectedNumber);
+				printf("Current Number: %d (for debug purpose)\n", selectedNumber);
 				TypeWriter(hasGuessed, 1, true, rand() % 3);
 			}
 
@@ -190,8 +210,35 @@ int main()
 				TypeWriter(selection_1, 1, true, 5);
 				printf("%d\n", ReadScore());
 				TypeWriter(selection_1, 1, true, 6);
-				printf("%d\n", currentPoints);
-				system("PAUSE");
+				printf("%d\n", sessionPoints);
+				TypeWriter(resetMessage, 1, true, 0);
+				ClearBuffer();
+				printf("Selection > ");
+				gets_s(resetSelection, 6);
+
+				if (!strcmp(resetSelection, "Reset") || !strcmp(resetSelection, "reset"))
+				{
+					printf("Selection > ");
+					system("cls");
+					TypeWriter(resetMessage, 1, true, 1);
+					scanf_s("%c", &confirmation, 1);
+					if (confirmation == 'Y' || confirmation == 'y') 
+					{
+						system("cls");
+						WriteScore(0);
+						currentPoints = 0;
+						TypeWriter(resetMessage, 1, true, 2);
+						system("Pause");
+					}
+
+					else
+					{
+						system("cls");
+						TypeWriter(resetMessage, 1, true, 3);
+						system("Pause");
+					}
+				}
+
 				break;
 			}
 			
@@ -213,11 +260,13 @@ int main()
 			
 			while (menuSelection == 1) // game loop
 			{
-				
 				printf("\nGuess > ");
-				int ch;
-				while ((ch = getchar()) != '\n' && ch != EOF);
 				scanf_s("%d", &playerGuess);
+				if (currentPoints == 0)
+				{
+					TypeWriter(errorMessage, 1, true, 1);
+					break;
+				}
 
 				if (playerGuess == selectedNumber)
 				{
@@ -226,23 +275,19 @@ int main()
 					printf("Correct Guess! Current Points Achieved: %d\n", currentPoints);
 					totalPoints += currentPoints;
 					sessionPoints += currentPoints;
-					//totalPoints += currentPoints;
 					WriteScore(totalPoints);
 					system("PAUSE");
 					break;
 				}
+
 				else
 				{
 					currentPoints--;
 					system("cls");
 					printf("Wrong Guess! Current Points: %d\n", currentPoints);
 					continue;
-				}
-				
+				}	
 			}
-
-			//system("PAUSE");
-
 		}
 	}
 
