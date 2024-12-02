@@ -26,6 +26,10 @@ int sessionPoints = 0; // oyunun simdiki instance'inda kazanilan puan
 char resetSelection[6]; // puani sifirlamak icin onay yazisi
 char confirmation; // ekstra onay degiskeni (Y/N)
 
+
+FILE* scoredata;
+errno_t err;
+
 // Daktilo efekti icin gerekli bilgi yazilarinin dizileri ------------------------------------------------------
 char welcome_message[welcome_length][100] = 
 { 
@@ -137,8 +141,6 @@ void Clear(void)
 void WriteScore(int score)
 {
 	char buffer[20];
-	FILE* scoredata;
-	errno_t err;
 	err =  fopen_s(&scoredata, "scoredata.txt", "w");
 	_itoa_s(score, buffer, 10);
 	fprintf(scoredata, buffer);
@@ -148,9 +150,11 @@ void WriteScore(int score)
 // Ilk calistirmada kayitli skoru dosyadan okuan fonksiyon
 int ReadScore()
 {
+	if (!&scoredata)
+	{
+		WriteScore(0);
+	}
 	char buffer[20];
-	FILE* scoredata;
-	errno_t err;
 	err = fopen_s(&scoredata, "scoredata.txt", "r");
 	totalPoints = atoi(fgets(buffer,20,scoredata));
 	fclose(scoredata);
@@ -162,6 +166,7 @@ int main()
 	while (true) // main menu loop
 	{
 		difficultySelection = ' ';
+		menuSelection = NULL;
 		system("cls");
 		srand((unsigned)(time(NULL)));
 		TypeWriter(welcome_message, welcome_length, false, 0);
@@ -263,12 +268,13 @@ int main()
 
 			else 
 			{ 
-				TypeWriter(errorMessage, 1, false, 0);
+				TypeWriter(errorMessage, 1, true, 0);
 				system("PAUSE");
+				Clear();
 				break;
 			}
 			
-			while (menuSelection == 1) // game loop
+			while (true) // game loop
 			{
 				system("cls");
 				printf("Current Number: %d (for debug purpose)\n", selectedNumber);
@@ -352,8 +358,8 @@ int main()
 	//	Oyun secilen zorluga gore tavan puandan baslar ve her yanlis tahminde 1 azalir.
 	//	Puan karsiligi ipucu satin alabilirsiniz.
 	//	Kod en basta her calistirmada scoredata.txt dosyasinda tutulan toplam skoru ceker
-	//	ve en basta menude 2 ye girerek kontrol edebilirsiniz.
-	//	Menude 3 girerek oyunun tam aciklamasini gorebilirsiniz.
+	//	ve en basta menude 2 ye girerek kontrol edebilirsiniz. Dosya mevcut degilse olusturur
+	//	ve icinde 0 yazar. Menude 3 girerek oyunun tam aciklamasini gorebilirsiniz.
 
 	return 0;
 }
