@@ -1,4 +1,5 @@
 // 1231602667 Eray Tuna A sube
+// Tum kodu ingilizce yazma sebebim yazarken daha rahat ve uygun gelmesidir.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,8 +52,8 @@ char selection_1[select_1_length][100] =
 {
 	{"Please choose a difficulty to play.\n"},
 	{"'E'(Easy): Guess in a range from 0 to 25\n"},
-	{"'M' (Medium): Guess in a range from 0 to 100\n"},
-	{"'H' (hard): Guess in a range from 0 to 250\n"},
+	{"'M' (Medium): Guess in a range from 0 to 50\n"},
+	{"'H' (hard): Guess in a range from 0 to 100\n"},
 	{"'X' to exit to the main menu.\n(The menu accepts lowercase characters)\n"},
 	{"Total points achieved: "},
 	{"\nCurrent points achieved for this session: "}
@@ -188,13 +189,13 @@ int main()
 				}
 				else if (difficultySelection == 'M' || difficultySelection == 'm')
 				{
-					upperBound = 100;
-					currentPoints = 100;
+					upperBound = 50;
+					currentPoints = 50;
 				}
 				else if (difficultySelection == 'H' || difficultySelection == 'h')
 				{
-					upperBound = 250;
-					currentPoints = 250;
+					upperBound = 100;
+					currentPoints = 100;
 				}
 				else if (difficultySelection == 'X' || difficultySelection == 'x')
 				{
@@ -316,7 +317,7 @@ int main()
 						}
 					}
 					
-					else if (difficultySelection == 'M' || difficultySelection == 'm')
+					else /*if (difficultySelection == 'M' || difficultySelection == 'm')*/
 					{
 						hint = upperBound / 2;
 						if (selectedNumber > hint)
@@ -344,6 +345,15 @@ int main()
 			}
 		}
 	}
+
+	//	Ekran ciktisi olarak ilk calistirdiginizda menu gorursunuz.
+	//	Menuden 1 girerek oyunu oynayabilir, 2 girerek simdiye kadarki skoru
+	//	veya o calistirma icinde kazandiginiz skoru gorebilirsiniz.
+	//	Oyun secilen zorluga gore tavan puandan baslar ve her yanlis tahminde 1 azalir.
+	//	Puan karsiligi ipucu satin alabilirsiniz.
+	//	Kod en basta her calistirmada scoredata.txt dosyasinda tutulan toplam skoru ceker
+	//	ve en basta menude 2 ye girerek kontrol edebilirsiniz.
+	//	Menude 3 girerek oyunun tam aciklamasini gorebilirsiniz.
 
 	return 0;
 }
