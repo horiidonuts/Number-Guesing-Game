@@ -83,6 +83,15 @@ char resetMessage[4][100] =
 	{"Score has been successfully cleared. Press any key to return to the main menu.\n"},
 	{"No changes have been made. Press any key to return to the main menu.\n\n"}
 };
+
+char hintMessage[5][100] =
+{
+	{"You can get a hint by typing '0' for 10 points.\n"},
+	{"\nThe selected number is lower than "},
+	{"\nThe selected number is higher than "},
+	{"\nThe number is an odd number.\n"},
+	{"\nThe number is an even number.\n"}
+};
 // Daktilo efekti icin gerekli bilgi yazilarinin dizileri -------------------------------------------------------
 
 // Daktilo efekti yaratan fonksiyon, parametre olarak iki boyutlu bir dizi(cumle sayisi ve harfler), cumle sayisi,
@@ -165,9 +174,9 @@ int main()
 				if (difficultySelection == 'X' || difficultySelection == 'x') { break; }
 				system("cls");
 				TypeWriter(selection_1, 5, false, 0);
-				printf("%d\n", ReadScore());
+				printf("%d\n", ReadScore());	// display total achieved score.
 				TypeWriter(selection_1, 1, true, 6);
-				printf("%d\n", sessionPoints);
+				printf("%d\n", sessionPoints);	// display current achieveable score.
 				printf("\nDifficulty > ");
 				Clear();
 				scanf_s("%c", &difficultySelection, 1);
@@ -198,10 +207,10 @@ int main()
 					continue;
 				}
 				
-				selectedNumber = rand() % (upperBound - 0 + 1);
+				selectedNumber = rand() % (upperBound - 1 + 1);
 				system("cls");
-				printf("Current Number: %d (for debug purpose)\n", selectedNumber);
 				TypeWriter(hasGuessed, 1, true, rand() % 3);
+				system("PAUSE");
 			}
 
 			else if (menuSelection == 2)
@@ -260,6 +269,10 @@ int main()
 			
 			while (menuSelection == 1) // game loop
 			{
+				system("cls");
+				printf("Current Number: %d (for debug purpose)\n", selectedNumber);
+				TypeWriter(hintMessage, 1, true, 0);
+				printf("\nCurrent points: %d\n", currentPoints);
 				printf("\nGuess > ");
 				scanf_s("%d", &playerGuess);
 				if (currentPoints == 0)
@@ -280,11 +293,52 @@ int main()
 					break;
 				}
 
+				else if (playerGuess == 0)
+				{
+					int hint; //ipucu bilgisi icin degisken
+
+					if (difficultySelection == 'E' || difficultySelection == 'e')
+					{
+						if (selectedNumber % 2 == 0)
+						{
+							TypeWriter(hintMessage, 1, true, 4);
+							currentPoints -= 3;
+							printf("\nCurrent points: %d\n", currentPoints);
+							system("PAUSE");
+						}
+
+						else
+						{
+							TypeWriter(hintMessage, 1, true, 3);
+							currentPoints -= 3;
+							printf("\nCurrent points: %d\n", currentPoints);
+							system("PAUSE");
+						}
+					}
+					
+					else if (difficultySelection == 'M' || difficultySelection == 'm')
+					{
+						hint = upperBound / 2;
+						if (selectedNumber > hint)
+						{
+							TypeWriter(hintMessage, 1, true, 2);
+						}
+						else
+						{
+							TypeWriter(hintMessage, 1, true, 1);
+						}
+						printf("%d\n", hint);
+						currentPoints -= 10;
+						system("PAUSE");
+					}
+				}
+
 				else
 				{
 					currentPoints--;
 					system("cls");
 					printf("Wrong Guess! Current Points: %d\n", currentPoints);
+					system("PAUSE");
 					continue;
 				}	
 			}
