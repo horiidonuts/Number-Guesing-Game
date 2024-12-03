@@ -84,7 +84,7 @@ char returnMessage[1][100] =
 char resetMessage[4][100] =
 {
 	{"Type 'Reset' to reset your total saved score.\nType anything else to return to the main menu.\n"},
-	{"\nAre you sure that you want to clear your total score? (Y/N)\n"},
+	{"Are you sure that you want to clear your total score? (Y/N)\n"},
 	{"Score has been successfully cleared. Press any key to return to the main menu.\n"},
 	{"No changes have been made. Press any key to return to the main menu.\n\n"}
 };
