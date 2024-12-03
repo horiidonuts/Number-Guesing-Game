@@ -1,4 +1,5 @@
 // 1231602667 Eray Tuna A sube
+
 // Tum kodu ingilizce yazma sebebim yazarken daha rahat ve uygun gelmesidir.
 
 #include <stdio.h>
@@ -13,8 +14,6 @@
 #define _CRT_NONSTDC_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 
-// input olarak i girildiginde puan karsiligi bilgi ipucu alabilme ozelligi
-
 int menuSelection; // menude gezinmemizi saglayan degisken
 char difficultySelection; // zorlugu secmemizi saglayan degisken
 int selectedNumber = 0; // tahmin etmemiz gereken sayi
@@ -27,7 +26,7 @@ char resetSelection[6]; // puani sifirlamak icin onay yazisi
 char confirmation; // ekstra onay degiskeni (Y/N)
 
 
-FILE* scoredata;
+FILE* scoredata; //	Dosya tanimlandi
 errno_t err;
 
 // Daktilo efekti icin gerekli bilgi yazilarinin dizileri ------------------------------------------------------
@@ -125,7 +124,7 @@ void TypeWriter(char text_array[][100], int array_length, bool typeOnce, int ind
 	}
 }
 
-// input buffer temizleme fonksiyonu.
+// input buffer temizleme fonksiyonlari.
 void ClearBuffer()
 {
 	int ch;
@@ -147,7 +146,8 @@ void WriteScore(int score)
 	fclose(scoredata);
 }
 
-// Ilk calistirmada kayitli skoru dosyadan okuan fonksiyon
+// Ilk calistirmada kayitli skoru dosyadan okuan fonksiyon 
+// dosya mevcut degilse acar ve icine 0 yazar
 int ReadScore()
 {
 	if (!&scoredata)
@@ -163,7 +163,7 @@ int ReadScore()
 
 int main()
 {	
-	while (true) // main menu loop
+	while (true) // main menu dongusu
 	{
 		difficultySelection = ' ';
 		menuSelection = NULL;
@@ -173,20 +173,22 @@ int main()
 		printf("\nSelection > ");
 		scanf_s("%d", &menuSelection);
 
-		while (true) // difficulty menu loop
+		while (true) // zorluk menusu dongusu
 		{
 			if (menuSelection == 1)
 			{
 				if (difficultySelection == 'X' || difficultySelection == 'x') { break; }
 				system("cls");
 				TypeWriter(selection_1, 5, false, 0);
-				printf("%d\n", ReadScore());	// display total achieved score.
+				printf("%d\n", ReadScore());	// Bastan itibaren elde edilmis toplam skor (dosyadan okunur).
 				TypeWriter(selection_1, 1, true, 6);
-				printf("%d\n", sessionPoints);	// display current achieveable score.
+				printf("%d\n", sessionPoints);	// Mevcut calistirma icin elde edilmis skor.
 				printf("\nDifficulty > ");
 				Clear();
 				scanf_s("%c", &difficultySelection, 1);
-				
+
+				//Oyunun zorluguna gore tavan puan secilir.
+
 				if (difficultySelection == 'E' || difficultySelection == 'e')
 				{
 					upperBound = 25;
@@ -206,6 +208,8 @@ int main()
 				{
 					continue;
 				}
+
+				//	Hatali giris durumunda bildirilir ve tekrar secim yapilir.
 				else
 				{
 					TypeWriter(errorMessage, 1, true, 0);
@@ -213,12 +217,14 @@ int main()
 					continue;
 				}
 				
+				//	Rastgele sayi olusturulur.
 				selectedNumber = rand() % (upperBound - 1 + 1);
 				system("cls");
 				TypeWriter(hasGuessed, 1, true, rand() % 3);
 				system("PAUSE");
 			}
 
+			//Skor goruntuleme menusu.
 			else if (menuSelection == 2)
 			{
 				system("cls");
@@ -231,6 +237,8 @@ int main()
 				printf("Selection > ");
 				gets_s(resetSelection, 6);
 
+				//	Skor sifirlanmak istenirse tum kayitli skoru sifirlayabilme
+				// secenegi ve ekstra onay.
 				if (!strcmp(resetSelection, "Reset") || !strcmp(resetSelection, "reset"))
 				{
 					printf("Selection > ");
@@ -257,6 +265,7 @@ int main()
 				break;
 			}
 			
+			//	Oyunun aciklama menusu.
 			else if (menuSelection == 3)
 			{
 				system("cls");
@@ -274,7 +283,8 @@ int main()
 				break;
 			}
 			
-			while (true) // game loop
+			//	Asil tahmin etmecenin oldugu dongu.
+			while (true)
 			{
 				system("cls");
 				printf("Current Number: %d (for debug purpose)\n", selectedNumber);
@@ -282,12 +292,15 @@ int main()
 				printf("\nCurrent points: %d\n", currentPoints);
 				printf("\nGuess > ");
 				scanf_s("%d", &playerGuess);
+
+				//	Tahmin edemeden tum puan biterse bir mesaj goruntulenir ve oyun sonlanir.
 				if (currentPoints == 0)
 				{
 					TypeWriter(errorMessage, 1, true, 1);
 					break;
 				}
 
+				//	Tahmin dogru ise puan scoredata.txt dosyasina aktarilir.
 				if (playerGuess == selectedNumber)
 				{
 					char buffer[20];
@@ -300,9 +313,10 @@ int main()
 					break;
 				}
 
+				//	Tahmin olarak 0 girilirse zorluga gore ipucu satin alabilme.
 				else if (playerGuess == 0)
 				{
-					int hint; //ipucu bilgisi icin degisken
+					int hint; //ipucu bilgisi icin lokal degisken
 
 					if (difficultySelection == 'E' || difficultySelection == 'e')
 					{
@@ -340,6 +354,7 @@ int main()
 					}
 				}
 
+				//	Yanlis tahmin sonucunda puan azaltilir ve devam edilir.
 				else
 				{
 					currentPoints--;
